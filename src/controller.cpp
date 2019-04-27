@@ -8,10 +8,11 @@
 #include "map.h"
 #include "snake.h"
 #include "food.h"
+#include "square.h"
 
 void Controller::Start()//开始界面
 {
-    SetWindowSize(41, 32);//设置窗口大小
+    SetWindowSize(86, 35);//设置窗口大小
     SetColor(2);//设置开始动画颜色
     StartInterface *start = new StartInterface();//动态分配一个StartInterface类start
     start->Action();//开始动画
@@ -174,6 +175,7 @@ void Controller::DrawGame()//绘制游戏界面
 
     /*绘制地图*/
     SetColor(3);
+    
     Map *init_map = new Map();
     init_map->PrintInitmap();
     delete init_map;
@@ -461,7 +463,7 @@ int Controller::GameOver()//游戏结束界面
     Sleep(500);
     SetColor(11);
     SetCursorPosition(10, 8);
-    std::cout << "---------------------------------" ;
+    std::cout << "------------------------------------------" ;
     Sleep(30);
     SetCursorPosition(9, 9);
     std::cout << " |               Game Over !!!              |" ;
@@ -470,13 +472,13 @@ int Controller::GameOver()//游戏结束界面
     std::cout << " |                                          |" ;
     Sleep(30);
     SetCursorPosition(9, 11);
-    std::cout << " |              Sorry, You die!              |" ;
+    std::cout << " |             Sorry, You lost!             |" ;
     Sleep(30);
     SetCursorPosition(9, 12);
     std::cout << " |                                          |" ;
     Sleep(30);
     SetCursorPosition(9, 13);
-    std::cout << " |             Your Score:                  |" ;
+    std::cout << " |               Your Score:                |" ;
     SetCursorPosition(24, 13);
     std::cout << score ;
     Sleep(30);
@@ -484,7 +486,7 @@ int Controller::GameOver()//游戏结束界面
     std::cout << " |                                          |" ;
     Sleep(30);
     SetCursorPosition(9, 15);
-    std::cout << " |   Play Again?                         |" ;
+    std::cout << " |               Play Again?                |" ;
     Sleep(30);
     SetCursorPosition(9, 16);
     std::cout << " |                                          |" ;
@@ -493,7 +495,7 @@ int Controller::GameOver()//游戏结束界面
     std::cout << " |                                          |" ;
     Sleep(30);
     SetCursorPosition(9, 18);
-    std::cout << " |    OK        Quit            |" ;
+    std::cout << " |        OK                  Quit          |" ;
     Sleep(30);
     SetCursorPosition(9, 19);
     std::cout << " |                                          |" ;
@@ -502,10 +504,10 @@ int Controller::GameOver()//游戏结束界面
     std::cout << " |                                          |" ;
     Sleep(30);
     SetCursorPosition(10, 21);
-    std::cout << "---------------------------------------" ;
+    std::cout << "------------------------------------------" ;
 
     Sleep(100);
-    SetCursorPosition(12, 18);
+    SetCursorPosition(14, 18);
     SetBackColor();
     std::cout << "OK" ;
     SetCursorPosition(0, 31);
@@ -521,10 +523,10 @@ int Controller::GameOver()//游戏结束界面
         case 75://LEFT
             if (tmp_key > 1)
             {
-                SetCursorPosition(12, 18);
+                SetCursorPosition(14, 18);
                 SetBackColor();
                 std::cout << "OK" ;
-                SetCursorPosition(20, 18);
+                SetCursorPosition(24, 18);
                 SetColor(11);
                 std::cout << "Quit" ;
                 --tmp_key;
@@ -534,10 +536,10 @@ int Controller::GameOver()//游戏结束界面
         case 77://RIGHT
             if (tmp_key < 2)
             {
-                SetCursorPosition(20, 18);
+                SetCursorPosition(24, 18);
                 SetBackColor();
                 std::cout << "Quit" ;
-                SetCursorPosition(12, 18);
+                SetCursorPosition(14, 18);
                 SetColor(11);
                 std::cout << "OK" ;
                 ++tmp_key;

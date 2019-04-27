@@ -64,10 +64,10 @@ echo After install, Please restart this script to compile!!&&pause&&exit
 :compile
 cls
 echo compiling...
-g++ -O2 -o monopoly src/main.cpp src/controller.cpp src/food.cpp src/map.cpp src/point.cpp src/snake.cpp src/startinterface.cpp src/tools.cpp lib/ovo.h -std=c++11 -fexec-charset=utf-8
+g++ -O2 -o monopoly src/main.cpp src/controller.cpp src/food.cpp src/square.cpp src/map.cpp src/point.cpp src/snake.cpp src/startinterface.cpp src/tools.cpp lib/ovo.h -std=c++11 -fexec-charset=utf-8
 echo compile finished! The program is in current folder!
 echo Press any key to open it!
-pause
+#pause
 start monopoly.exe
 goto menu
 

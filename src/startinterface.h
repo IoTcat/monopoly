@@ -8,7 +8,10 @@
 class StartInterface
 {
 public:
-    StartInterface() : speed(35) {
+    StartInterface() : speed(25) {
+
+        int p;
+
         startsnake.emplace_back(Point(0,14));//Éß
         startsnake.emplace_back(Point(1,14));
         startsnake.emplace_back(Point(2,15));
@@ -20,63 +23,105 @@ public:
         startsnake.emplace_back(Point(8,15));
         startsnake.emplace_back(Point(9,14));
 
-        textsnake.emplace_back(Point(-26, 14));//S
-        textsnake.emplace_back(Point(-25, 14));
-        textsnake.emplace_back(Point(-27, 15));
-        textsnake.emplace_back(Point(-26, 16));
-        textsnake.emplace_back(Point(-25, 17));
-        textsnake.emplace_back(Point(-27, 18));
-        textsnake.emplace_back(Point(-26, 18));
+        p = -27;
+        textsnake.emplace_back(Point(p+8, 18));
+        textsnake.emplace_back(Point(p+7, 16));
+        textsnake.emplace_back(Point(p+6, 14));//M
+        textsnake.emplace_back(Point(p+5, 15));
+        textsnake.emplace_back(Point(p+4, 16));
+        textsnake.emplace_back(Point(p+3, 15));
+        textsnake.emplace_back(Point(p+2, 14));
+        textsnake.emplace_back(Point(p+1, 16));
+        textsnake.emplace_back(Point(p, 18));
 
-        textsnake.emplace_back(Point(-23, 14));//N
-        textsnake.emplace_back(Point(-23, 15));
-        textsnake.emplace_back(Point(-23, 16));
-        textsnake.emplace_back(Point(-23, 17));
-        textsnake.emplace_back(Point(-23, 18));
-        textsnake.emplace_back(Point(-22, 15));
-        textsnake.emplace_back(Point(-21, 16));
-        textsnake.emplace_back(Point(-20, 17));
-        textsnake.emplace_back(Point(-19, 14));
-        textsnake.emplace_back(Point(-19, 15));
-        textsnake.emplace_back(Point(-19, 16));
-        textsnake.emplace_back(Point(-19, 17));
-        textsnake.emplace_back(Point(-19, 18));
 
-        textsnake.emplace_back(Point(-17, 18));//A
-        textsnake.emplace_back(Point(-16, 17));
-        textsnake.emplace_back(Point(-15, 16));
-        textsnake.emplace_back(Point(-14, 15));
-        textsnake.emplace_back(Point(-14, 16));
-        textsnake.emplace_back(Point(-13, 14));
-        textsnake.emplace_back(Point(-13, 16));
-        textsnake.emplace_back(Point(-12, 15));
-        textsnake.emplace_back(Point(-12, 16));
-        textsnake.emplace_back(Point(-11, 16));
-        textsnake.emplace_back(Point(-10, 17));
-        textsnake.emplace_back(Point(-9, 18));
+        p = -18;
+        textsnake.emplace_back(Point(p, 15));//O
+        textsnake.emplace_back(Point(p, 16));
+        textsnake.emplace_back(Point(p, 17));
+        textsnake.emplace_back(Point(p+1, 18));
+        textsnake.emplace_back(Point(p+1, 14));
+        textsnake.emplace_back(Point(p+2, 18));
+        textsnake.emplace_back(Point(p+2, 14));
+        textsnake.emplace_back(Point(p+3, 15));
+        textsnake.emplace_back(Point(p+3, 16));
+        textsnake.emplace_back(Point(p+3, 17));
 
-        textsnake.emplace_back(Point(-7, 14));//K
-        textsnake.emplace_back(Point(-7, 15));
-        textsnake.emplace_back(Point(-7, 16));
-        textsnake.emplace_back(Point(-7, 17));
-        textsnake.emplace_back(Point(-7, 18));
-        textsnake.emplace_back(Point(-6, 16));
-        textsnake.emplace_back(Point(-5, 15));
-        textsnake.emplace_back(Point(-5, 17));
-        textsnake.emplace_back(Point(-4, 14));
-        textsnake.emplace_back(Point(-4, 18));
+        p += 5;
+        textsnake.emplace_back(Point(p, 14));//N
+        textsnake.emplace_back(Point(p, 15));
+        textsnake.emplace_back(Point(p, 16));
+        textsnake.emplace_back(Point(p, 17));
+        textsnake.emplace_back(Point(p, 18));
+        textsnake.emplace_back(Point(p+1, 15));
+        textsnake.emplace_back(Point(p+2, 16));
+        textsnake.emplace_back(Point(p+3, 17));
+        textsnake.emplace_back(Point(p+4, 14));
+        textsnake.emplace_back(Point(p+4, 15));
+        textsnake.emplace_back(Point(p+4, 16));
+        textsnake.emplace_back(Point(p+4, 17));
+        textsnake.emplace_back(Point(p+4, 18));
 
-        textsnake.emplace_back(Point(-2, 14));//E
-        textsnake.emplace_back(Point(-2, 15));
-        textsnake.emplace_back(Point(-2, 16));
-        textsnake.emplace_back(Point(-2, 17));
-        textsnake.emplace_back(Point(-2, 18));
-        textsnake.emplace_back(Point(-1, 14));
-        textsnake.emplace_back(Point(-1, 16));
-        textsnake.emplace_back(Point(-1, 18));
-        textsnake.emplace_back(Point(0, 14));
-        textsnake.emplace_back(Point(0, 16));
-        textsnake.emplace_back(Point(0, 18));
+
+        p += 6;
+        textsnake.emplace_back(Point(p, 15));//O
+        textsnake.emplace_back(Point(p, 16));
+        textsnake.emplace_back(Point(p, 17));
+        textsnake.emplace_back(Point(p+1, 18));
+        textsnake.emplace_back(Point(p+1, 14));
+        textsnake.emplace_back(Point(p+2, 18));
+        textsnake.emplace_back(Point(p+2, 14));
+        textsnake.emplace_back(Point(p+3, 15));
+        textsnake.emplace_back(Point(p+3, 16));
+        textsnake.emplace_back(Point(p+3, 17));
+
+        p += 5;
+        textsnake.emplace_back(Point(p, 14));//P
+        textsnake.emplace_back(Point(p, 15));
+        textsnake.emplace_back(Point(p, 16));
+        textsnake.emplace_back(Point(p, 17));
+        textsnake.emplace_back(Point(p, 18));
+        textsnake.emplace_back(Point(p+1, 16));
+        textsnake.emplace_back(Point(p+1, 14));
+        textsnake.emplace_back(Point(p+2, 16));
+        textsnake.emplace_back(Point(p+2, 14));
+        textsnake.emplace_back(Point(p+3, 15));
+
+        p += 5;
+        textsnake.emplace_back(Point(p, 15));//O
+        textsnake.emplace_back(Point(p, 16));
+        textsnake.emplace_back(Point(p, 17));
+        textsnake.emplace_back(Point(p+1, 18));
+        textsnake.emplace_back(Point(p+1, 14));
+        textsnake.emplace_back(Point(p+2, 18));
+        textsnake.emplace_back(Point(p+2, 14));
+        textsnake.emplace_back(Point(p+3, 15));
+        textsnake.emplace_back(Point(p+3, 16));
+        textsnake.emplace_back(Point(p+3, 17));
+
+        p+=5;
+        textsnake.emplace_back(Point(p, 14));//L
+        textsnake.emplace_back(Point(p, 15));
+        textsnake.emplace_back(Point(p, 16));
+        textsnake.emplace_back(Point(p, 17));
+        textsnake.emplace_back(Point(p, 18));
+        textsnake.emplace_back(Point(p+1, 18));
+        textsnake.emplace_back(Point(p+2, 18));
+        textsnake.emplace_back(Point(p+3, 18));
+
+
+        p+=4;
+        textsnake.emplace_back(Point(p, 14));//Y
+        textsnake.emplace_back(Point(p+1, 15));
+        textsnake.emplace_back(Point(p+2, 16));
+        textsnake.emplace_back(Point(p+3, 15));
+        textsnake.emplace_back(Point(p+4, 14));
+        textsnake.emplace_back(Point(p+2, 17));
+        textsnake.emplace_back(Point(p+2, 18));
+
+
+
+
     }
     void PrintFirst();
     void PrintSecond();

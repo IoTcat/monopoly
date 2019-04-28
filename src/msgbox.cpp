@@ -70,6 +70,7 @@ int Msgbox::print(std::string msg1, std::string msg2, std::string msg3, std::str
     int ch;
     int tmp_key = 1;
     bool flag = false;
+    while(kbhit()) getch(); //清缓存
     while (ch1.length() && (ch = getch()))
     {
         switch (ch)

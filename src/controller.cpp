@@ -6,24 +6,27 @@
 #include "controller.h"
 #include "tools.h"
 #include "startinterface.h"
-#include "map.h"
 #include "snake.h"
 #include "food.h"
-#include "square.h"
+
 
 void Controller::Start()//开始界面
 {
     SetWindowSize(59, 35);//设置窗口大小
-    SetColor(2);//设置开始动画颜色
+    SetColor(10);//设置开始动画颜色
     StartInterface *start = new StartInterface();//动态分配一个StartInterface类start
     start->Action();//开始动画
     delete start;//释放内存空间
 
     /*设置关标位置，并输出提示语，等待任意键输入结束*/
-    SetCursorPosition(13, 26);
+    SetCursorPosition(23, 26);
     std::cout << "Press any key to start... " ;
-    SetCursorPosition(13, 27);
+    SetCursorPosition(23, 27);
     system("pause");
+    SetCursorPosition(23, 26);
+    std::cout << "                           " ;
+    SetCursorPosition(23, 27);
+    std::cout << "                           " ;
 }
 
 void Controller::Select()//选择界面
@@ -177,64 +180,176 @@ void Controller::DrawGame()//绘制游戏界面
     /*绘制地图*/
     SetColor(3);
 
-    Map *init_map = new Map();
-    init_map->PrintInitmap();
-    delete init_map;
+    map = new Map();
+    map->PrintInitmap();
 
-    const int _X = 35;
-    const int _Y = 17;
+    this->sb1->print(*p1);
+    this->sb2->print(*p2);
 
-    /*绘制侧边栏*/
-    SetColor(3);
-    SetCursorPosition(_X, _Y);
-    std::cout << "Monopoly" ;
-    SetCursorPosition(_X, _Y + 1);
-    std::cout << "    " ;
-    SetCursorPosition(_X, _Y + 2);
-    std::cout << "Mode: " ;
-    SetCursorPosition(_X + 4, _Y + 2);
-    switch (key)
-    {
-    case 1:
-        std::cout << "Easy" ;
-        break;
-    case 2:
-        std::cout << "Normal" ;
-        break;
-    case 3:
-        std::cout << "Difficult" ;
-        break;
-    case 4:
-        std::cout << "Hell" ;
-        break;
-    default:
-        break;
-    }
-    SetCursorPosition(_X, _Y + 3);
-    std::cout << "Score: " ;
-    SetCursorPosition(_X + 4, _Y + 3);
-    std::cout << "   0" ;
-    SetCursorPosition(_X, _Y + 5);
-    std::cout << " Use Arrows" ;
-    SetCursorPosition(_X, _Y + 6);
-    std::cout << " ESC to Pause" ;
 }
 
 int Controller::PlayGame()//游戏二级循环
 {
     /*初始化蛇和食物*/
-    Snake *csnake = new Snake();
-    Food *cfood = new Food();
-    SetColor(6);
-    csnake->InitSnake();
+
     srand((unsigned)time(NULL));//设置随机数种子，如果没有 食物的出现位置将会固定
-    cfood->DrawFood(*csnake);
+    int ice_p1 = 0;
+    int ice_p2 = 0;
+    int tmp;
 
     /*游戏循环*/
-    while (csnake->OverEdge() && csnake->HitItself()) //判断是否撞墙或撞到自身，即是否还有生命
+    while (p1->getBalance() > 0 && p2->getBalance() > 0) //判断是否撞墙或撞到自身，即是否还有生命
     {
+
+
+        hintBox.color(14);
+        hintBox.print("MONOPOLY::PLAYER");
+        if(!ice_p1){
+            tmp = this->msgBox.print("Hi Player~", "It is YOUR turn.", "Please Select:", "Cast", "Quit");
+            if(tmp == 2) return 2;
+
+            tmp = this->roll.cast();
+            Sleep(800);
+
+            this->map->player_move(tmp);
+
+            //this->hintBox.print(to_string(this->map->_map[this->map->_playerPos].getPrice()));
+
+            //GO
+            if(this->map->_map[map->_playerPos].type == GO){
+
+                this->p1->gain(200);
+                this->msgBox.print("Hi Player~", "You are into the GO zone..", "Gain $ 200 !!");
+
+                this->UpdateScore();
+                Sleep(1500);
+            }else if(this->map->_map[map->_playerPos].type == JAIL){ //JAIL
+                ice_p1 = 1;
+                this->msgBox.print("Hi Player~", "You are into the JAIL zone..", "You need to wait for one round !!");
+                Sleep(1500);
+            }else if(this->map->_map[map->_playerPos].ownerType == ""){ //无人领地
+
+                tmp = this->msgBox.print("Hi Player~", "This square is unoccupied.", "Do you want to BUY it?", "Yes", "No");
+                if(tmp == 1){
+                    this->map->_map[map->_playerPos].owner = p1->getName();
+                    this->map->_map[map->_playerPos].ownerType = "PLAYER";
+                    p1->cost(this->map->_map[this->map->_playerPos].getPrice());
+                    this->map->_map[map->_playerPos].buy(*p1);
+
+                    this->UpdateScore();
+                }
+            }else if(this->map->_map[map->_playerPos].ownerType == "PLAYER"){//玩家地盘
+
+                tmp = this->msgBox.print("Hi Player~", "This square is occupied by you.", "Do you want to UPGRADE it?", "Yes", "No");
+                if(tmp == 1){
+                    this->map->_map[map->_playerPos].levelup();
+                    this->map->_map[map->_playerPos].print();
+                    this->p1->cost(this->map->_map[map->_playerPos]._price * .5);
+
+                    this->UpdateScore();
+                }
+            }else if(this->map->_map[map->_playerPos].ownerType == "AI"){//ai地盘
+
+                int t_price = this->map->_map[this->map->_playerPos].getPrice() * (1 + (this->map->_map[map->_playerPos - 1].ownerType == "AI" || this->map->_map[map->_playerPos + 1].ownerType == "AI")?.1 : 0);
+                std::string t_s = "You need to PAY $ ";
+                t_s += to_string(t_price);
+                tmp = this->msgBox.print("Hi Player~", "This square is occupied by COMPUTER.", t_s);
+                Sleep(1500);
+
+                this->p1->cost(t_price);
+                this->p2->gain(t_price);
+
+                this->UpdateScore();
+            }else{
+                Sleep(800);
+            }
+
+        }else{
+            ice_p1 = 0;
+        }
+
+
+
+        hintBox.color(13);
+        hintBox.print("MONOPOLY::COMPUTER");
+        if(!ice_p2){
+
+            this->msgBox.print("Hi Player~", "It is Computer's turn.", "Please Wait..");
+            Sleep(800);
+
+            tmp = this->roll.cast();
+            Sleep(800);
+
+            map->ai_move(tmp);
+            Sleep(300);
+
+            //GO
+            if(this->map->_map[map->_aiPos].type == GO){
+
+                this->p2->gain(200);
+                this->msgBox.print("WOW ~", "Computer into the GO zone..", "Gain $ 200 !!");
+                this->UpdateScore();
+                Sleep(1000);
+            }else if(this->map->_map[map->_aiPos].type == JAIL){ //JAIL
+                ice_p2 = 1;
+                this->msgBox.print("AHA ...", "Computer are into the JAIL zone..", "He need to wait for one round !!");
+                Sleep(1000);
+            }else if(this->map->_map[map->_aiPos].ownerType == ""){ //无人领地
+
+                tmp = this->msgBox.print("Lala..", "Computer Find a unoccupied space.", "What will he do?");
+                Sleep(1500);
+                tmp = rand() % 2;
+                if(tmp == 1){
+                    this->map->_map[map->_aiPos].owner = p2->getName();
+                    this->map->_map[map->_aiPos].ownerType = "AI";
+                    p2->cost(this->map->_map[this->map->_aiPos].getPrice());
+                    this->map->_map[map->_aiPos].buy(*p2);
+                    this->UpdateScore();
+                    
+                    tmp = this->msgBox.print("Lala..", "Computer Find a unoccupied space.", "The Computer BOUGHT it!!");
+                    Sleep(1500);
+                }else{
+                    tmp = this->msgBox.print("Lala..", "Computer Find a unoccupied space.", "The Computer do NOTHING!!");
+                    Sleep(1500);
+                }
+            }else if(this->map->_map[map->_aiPos].ownerType == "AI"){//玩家地盘
+
+                tmp = this->msgBox.print("Ahm..", "Computer meet his own square.", "What will he do?");
+                Sleep(1500);
+                tmp = rand()%2;
+                if(tmp == 1){
+                    this->map->_map[map->_aiPos].levelup();
+                    this->map->_map[map->_aiPos].print();
+                    this->p2->cost(this->map->_map[map->_aiPos]._price * .5);
+                    this->UpdateScore();
+                    tmp = this->msgBox.print("Ahm..", "Computer meet his own square.", "The Computer UPGRADE it!!");
+                    Sleep(1500);
+                }else{
+                    tmp = this->msgBox.print("Ahm..", "Computer meet his own square.", "The Computer do NOTHING!!");
+                    Sleep(1500);
+                }
+            }else if(this->map->_map[map->_aiPos].ownerType == "PLAYER"){//ai地盘
+
+                int t_price = this->map->_map[this->map->_aiPos].getPrice() * (1 + (this->map->_map[map->_aiPos - 1].ownerType == "PLAYER" || this->map->_map[map->_aiPos + 1].ownerType == "PLAYER")?.1 : 0);
+                std::string t_s = "You GAIN $ ";
+                t_s += to_string(t_price);
+                tmp = this->msgBox.print("Xixi ^_^", "Computer meet your square..", t_s);
+                Sleep(1500);
+
+                this->p2->cost(t_price);
+                this->p1->gain(t_price);
+                this->UpdateScore();
+            }else{
+                Sleep(800);
+            }
+
+
+        }else{
+            ice_p2 = 0;
+        }
+
         /*调出选择菜单*/
-        if (!csnake->ChangeDirection()) //按Esc键时
+ /*       if (0) //按Esc键时
         {
             int tmp = Menu();//绘制菜单，并得到返回值
             switch (tmp)
@@ -255,8 +370,8 @@ int Controller::PlayGame()//游戏二级循环
             default:
                 break;
             }
-        }
-
+        }*/
+/*
         if (csnake->GetFood(*cfood)) //吃到食物
         {
             csnake->Move();//蛇增长
@@ -282,14 +397,14 @@ int Controller::PlayGame()//游戏二级循环
         }
 
         Sleep(speed);//制造蛇的移动效果
+        */
     }
 
     /*蛇死亡*/
-    delete csnake;//释放分配的内存空间
-    delete cfood;
+
     std::string t_score = "Your Score: ";
     t_score += this->score;
-    int tmp = this->msgBox.print("Game Over !!!", "You Lost!", "Play Again?", "OK", "Quit");//绘制游戏结束界面，并返回所选项
+    tmp = this->msgBox.print("Game Over !!!", "You Lost!", "Play Again?", "OK", "Quit");//绘制游戏结束界面，并返回所选项
     hintBox.print("Press esc to quit");
     switch (tmp)
     {
@@ -302,12 +417,10 @@ int Controller::PlayGame()//游戏二级循环
     }
 }
 
-void Controller::UpdateScore(const int& tmp)//更新分数
+void Controller::UpdateScore()//更新分数
 {
-    score += key * 10 * tmp;//所得分数根据游戏难度及传人的参数tmp确定
-    this->msgBox.title("MsgBox");
-    this->msgBox.print("test","Good Game", "of");
-    this->roll.cast();
+    this->sb1->print(*p1);
+    this->sb2->print(*p2);
 }
 
 void Controller::RewriteScore()//重绘分数
@@ -446,6 +559,7 @@ int Controller::Menu()//选择菜单
 void Controller::Game()//游戏一级循环
 {
     Start();//开始界面
+    login();
     while (true)//游戏可视为一个死循环，直到退出游戏时循环结束
     {
         Select();//选择界面
@@ -468,3 +582,13 @@ void Controller::Game()//游戏一级循环
 }
 
 
+void Controller::login(){
+
+    /* 创建两个玩家 */
+    this->p1 = new Player("yimian", "hhh");
+    this->p2 = new Player("ai");
+
+    this->sb1 = new Scoreboard(32, 20, 14);
+    this->sb2 = new Scoreboard(42, 20, 13);
+
+}

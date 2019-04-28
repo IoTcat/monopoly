@@ -4,19 +4,28 @@
 #include "msgbox.h"
 #include "hintbox.h"
 #include "roll.h"
+#include "player.h"
+#include "map.h"
+#include "scoreboard.h"
 
 class Controller
 {
 public:
-    Controller() : speed(200), key(1), score(0), msgBox(9, 8, 11), hintBox(9, 22, 11), roll(35, 9) {}
+    Controller() : speed(200), key(1), score(0), msgBox(9, 8, 11), hintBox(9, 22, 11), roll(40, 9) {
+        msgBox.title("Message Box");
+    }
+    ~Controller(){
+        delete p1, p2, map;
+    };
     void Start();
     void Select();
     void DrawGame();
     int PlayGame();
-    void UpdateScore(const int&);
+    void UpdateScore();
     void RewriteScore();
     int Menu();
     void Game();
+    void login();
     
 private:
     int speed;
@@ -25,5 +34,8 @@ private:
     Msgbox msgBox;
     Hintbox hintBox;
     Roll roll;
+    Player *p1, *p2;
+    Map *map;
+    Scoreboard *sb1, *sb2;
 };
 #endif // CONTROLLER_H

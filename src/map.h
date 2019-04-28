@@ -39,16 +39,17 @@ public:
         this->_playerPos = 0;
         this->_aiPos = 0;
 
-        player_move(2);
-        ai_move(3);
+        player_move(0);
+        ai_move(0);
 
-        this->_map[15].player_buy();
-        this->_map[35].ai_buy();
+        //this->_map[15].player_buy();
+        //this->_map[35].ai_buy();
 
     }
     void PrintInitmap();//绘制初始地图
     void player_move(int i);
     void ai_move(int i);
+    friend class Controller;
 private:
     std::vector<Point> initmap;//保存初始地图
     std::vector<Square> _map;

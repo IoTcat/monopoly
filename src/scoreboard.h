@@ -6,24 +6,23 @@
 #include <string>
 #include <windows.h>
 #include <conio.h>
+#include "player.h"
 
 
-class ScoreBoard{
+class Scoreboard{
 
 public:
-    ScoreBoard(std::string title, int x, int y, int color){
+    Scoreboard(int x, int y, int color){
         this->_X = x;
         this->_Y = y;
         this->_color = color;
-        this->_title = title;
     };
 
 
-    int print(std::string msg1, std::string msg2, std::string msg3, std::string ch1 = "", std::string ch2 = "");
+    int print(Player& p);
 
 
 private:
-    std::string _title;
     int _X;
     int _Y;
     int _color;

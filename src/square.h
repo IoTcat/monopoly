@@ -5,6 +5,7 @@
 #include <time.h>
 #include <vector>
 #include "point.h"
+#include "player.h"
 
 const unsigned short g_squareLength = 4;
 const unsigned short g_squareWidth = 4; 
@@ -26,23 +27,35 @@ public:
         
         this->_price = (rand() % (290 + 1)) + 10;
 
-        type = NORMAL;
+        this->type = NORMAL;
+        this->owner = "";
+        this->ownerType = "";
     }
 
     squareType type;
+    std::string owner;
+    std::string ownerType;
     void draw_player();
     void draw_ai();
     void clear_player();
     void clear_ai();
     void print();//绘制初始地图
-    void player_buy();
-    void ai_buy();
-    inline unsigned int getPrice(){
-        return this->_price;
+    void buy(Player& p);
+
+    inline double getPrice(){
+        return (double)this->_price * (1 + this->_level * .05);
     };
     inline unsigned short getLevel(){
         return this->_level;
     };
+    friend class Player;
+    friend class Controller;
+    inline int levelup(){
+        this->_level += 1;
+        this->print();
+        return this->_level;
+    }
+
 private:
     std::vector<Point> _rowLines;//水平线
     std::vector<Point> _columnLines;//竖直线

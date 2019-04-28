@@ -5,7 +5,7 @@
 void Point::Print()//输出点
 {
     SetCursorPosition(x, y);
-    std::cout << "*" ;
+    std::cout << "@" ;
 }
 
 void Point::PrintCircular()//输出圆形

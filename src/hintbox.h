@@ -21,6 +21,9 @@ public:
 
     int print(std::string msg);
     void clear();
+    void color(int color){
+        this->_color = color;
+    };
 
 
 private:

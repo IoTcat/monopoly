@@ -2,9 +2,14 @@
 #include <windows.h>
 #include <iostream>
 #include "tools.h"
+#include <iomanip>
 
 void Square::print()//绘制单元格
 {
+
+    if(this->ownerType == "PLAYER") SetColor(14);
+    if(this->ownerType == "AI") SetColor(13);
+
     for (auto& point : _rowLines) //水平制表
     {
         point.PrintRowLine();
@@ -29,8 +34,10 @@ void Square::print()//绘制单元格
         std::cout << "Lv. " << this->_level ;
 
         SetCursorPosition(this->_X + 1, this->_Y + 2);
-        std::cout << "$ " << this->_price;
+        std::cout << "$ " << setprecision(4) << this->getPrice();
     }
+
+
 }
 
 
@@ -86,15 +93,11 @@ void Square::clear_ai(){
 }
 
 
-void Square::player_buy(){
+void Square::buy(Player& p){
 
-    SetColor(6);
-    this->print();
-}
-
-
-void Square::ai_buy(){
-
-    SetColor(13);
+    this->owner = p.getName();
+    this->ownerType = p.type;
+    if(this->ownerType == "PLAYER") SetColor(14);
+    else SetColor(13);
     this->print();
 }

@@ -23,19 +23,19 @@ void Roll::anime(){
 int Roll::print(int num)//游戏结束界面
 {
     /*绘制游戏结束界面*/
-    SetColor((rand() % (15-9+1))+ 9);
+    SetColor((rand() % (15-10+1))+ 10);
     SetCursorPosition(this->_X + 1, this->_Y); /* 9,8 */
-    std::cout << "----------" ;
+    std::cout << "==========" ;
     SetCursorPosition(this->_X, this->_Y + 1);
-    std::cout << " |          |" ;
+    std::cout << "|||       |||" ;
     SetCursorPosition(this->_X, this->_Y + 2);
-    std::cout << " |          |" ;
+    std::cout << "|||       |||" ;
     SetCursorPosition(this->_X + 1 + (5 - 1) / 2, this->_Y + 2);
     std::cout << num ;
     SetCursorPosition(this->_X, this->_Y + 3);
-    std::cout << " |          |" ;
+    std::cout << "|||       |||" ;
     SetCursorPosition(this->_X + 1, this->_Y + 4);
-    std::cout << "----------" ;
+    std::cout << "==========" ;
 
     return 1;
 }

@@ -2,6 +2,7 @@
 #include <time.h>
 #include <conio.h>
 #include <windows.h>
+#include <string>
 #include "controller.h"
 #include "tools.h"
 #include "startinterface.h"
@@ -12,7 +13,7 @@
 
 void Controller::Start()//开始界面
 {
-    SetWindowSize(86, 35);//设置窗口大小
+    SetWindowSize(59, 35);//设置窗口大小
     SetColor(2);//设置开始动画颜色
     StartInterface *start = new StartInterface();//动态分配一个StartInterface类start
     start->Action();//开始动画
@@ -175,20 +176,23 @@ void Controller::DrawGame()//绘制游戏界面
 
     /*绘制地图*/
     SetColor(3);
-    
+
     Map *init_map = new Map();
     init_map->PrintInitmap();
     delete init_map;
 
+    const int _X = 35;
+    const int _Y = 17;
+
     /*绘制侧边栏*/
     SetColor(3);
-    SetCursorPosition(33, 1);
+    SetCursorPosition(_X, _Y);
     std::cout << "Monopoly" ;
-    SetCursorPosition(34, 2);
+    SetCursorPosition(_X, _Y + 1);
     std::cout << "    " ;
-    SetCursorPosition(31, 4);
+    SetCursorPosition(_X, _Y + 2);
     std::cout << "Mode: " ;
-    SetCursorPosition(36, 5);
+    SetCursorPosition(_X + 4, _Y + 2);
     switch (key)
     {
     case 1:
@@ -206,13 +210,13 @@ void Controller::DrawGame()//绘制游戏界面
     default:
         break;
     }
-    SetCursorPosition(31, 7);
+    SetCursorPosition(_X, _Y + 3);
     std::cout << "Score: " ;
-    SetCursorPosition(37, 8);
-    std::cout << "     0" ;
-    SetCursorPosition(33, 13);
+    SetCursorPosition(_X + 4, _Y + 3);
+    std::cout << "   0" ;
+    SetCursorPosition(_X, _Y + 5);
     std::cout << " Use Arrows" ;
-    SetCursorPosition(33, 15);
+    SetCursorPosition(_X, _Y + 6);
     std::cout << " ESC to Pause" ;
 }
 
@@ -283,7 +287,10 @@ int Controller::PlayGame()//游戏二级循环
     /*蛇死亡*/
     delete csnake;//释放分配的内存空间
     delete cfood;
-    int tmp = GameOver();//绘制游戏结束界面，并返回所选项
+    std::string t_score = "Your Score: ";
+    t_score += this->score;
+    int tmp = this->msgBox.print("Game Over !!!", "You Lost!", "Play Again?", "OK", "Quit");//绘制游戏结束界面，并返回所选项
+    hintBox.print("Press esc to quit");
     switch (tmp)
     {
     case 1:
@@ -298,6 +305,9 @@ int Controller::PlayGame()//游戏二级循环
 void Controller::UpdateScore(const int& tmp)//更新分数
 {
     score += key * 10 * tmp;//所得分数根据游戏难度及传人的参数tmp确定
+    this->msgBox.title("MsgBox");
+    this->msgBox.print("test","Good Game", "of");
+    this->roll.cast();
 }
 
 void Controller::RewriteScore()//重绘分数
@@ -457,117 +467,4 @@ void Controller::Game()//游戏一级循环
     }
 }
 
-int Controller::GameOver()//游戏结束界面
-{
-    /*绘制游戏结束界面*/
-    Sleep(500);
-    SetColor(11);
-    SetCursorPosition(10, 8);
-    std::cout << "------------------------------------------" ;
-    Sleep(30);
-    SetCursorPosition(9, 9);
-    std::cout << " |               Game Over !!!              |" ;
-    Sleep(30);
-    SetCursorPosition(9, 10);
-    std::cout << " |                                          |" ;
-    Sleep(30);
-    SetCursorPosition(9, 11);
-    std::cout << " |             Sorry, You lost!             |" ;
-    Sleep(30);
-    SetCursorPosition(9, 12);
-    std::cout << " |                                          |" ;
-    Sleep(30);
-    SetCursorPosition(9, 13);
-    std::cout << " |               Your Score:                |" ;
-    SetCursorPosition(24, 13);
-    std::cout << score ;
-    Sleep(30);
-    SetCursorPosition(9, 14);
-    std::cout << " |                                          |" ;
-    Sleep(30);
-    SetCursorPosition(9, 15);
-    std::cout << " |               Play Again?                |" ;
-    Sleep(30);
-    SetCursorPosition(9, 16);
-    std::cout << " |                                          |" ;
-    Sleep(30);
-    SetCursorPosition(9, 17);
-    std::cout << " |                                          |" ;
-    Sleep(30);
-    SetCursorPosition(9, 18);
-    std::cout << " |        OK                  Quit          |" ;
-    Sleep(30);
-    SetCursorPosition(9, 19);
-    std::cout << " |                                          |" ;
-    Sleep(30);
-    SetCursorPosition(9, 20);
-    std::cout << " |                                          |" ;
-    Sleep(30);
-    SetCursorPosition(10, 21);
-    std::cout << "------------------------------------------" ;
 
-    Sleep(100);
-    SetCursorPosition(14, 18);
-    SetBackColor();
-    std::cout << "OK" ;
-    SetCursorPosition(0, 31);
-
-    /*选择部分*/
-    int ch;
-    int tmp_key = 1;
-    bool flag = false;
-    while ((ch = getch()))
-    {
-        switch (ch)
-        {
-        case 75://LEFT
-            if (tmp_key > 1)
-            {
-                SetCursorPosition(14, 18);
-                SetBackColor();
-                std::cout << "OK" ;
-                SetCursorPosition(24, 18);
-                SetColor(11);
-                std::cout << "Quit" ;
-                --tmp_key;
-            }
-            break;
-
-        case 77://RIGHT
-            if (tmp_key < 2)
-            {
-                SetCursorPosition(24, 18);
-                SetBackColor();
-                std::cout << "Quit" ;
-                SetCursorPosition(14, 18);
-                SetColor(11);
-                std::cout << "OK" ;
-                ++tmp_key;
-            }
-            break;
-
-        case 13://Enter
-            flag = true;
-            break;
-
-        default:
-            break;
-        }
-
-        SetCursorPosition(0, 31);
-        if (flag) {
-            break;
-        }
-    }
-
-    SetColor(11);
-    switch (tmp_key)
-    {
-    case 1:
-        return 1;//重新开始
-    case 2:
-        return 2;//退出游戏
-    default:
-        return 1;
-    }
-}

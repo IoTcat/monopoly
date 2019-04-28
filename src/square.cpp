@@ -8,7 +8,8 @@ void Square::print()//绘制单元格
 {
 
     if(this->ownerType == "PLAYER") SetColor(14);
-    if(this->ownerType == "AI") SetColor(13);
+    else if(this->ownerType == "AI") SetColor(13);
+    else SetColor(3);
 
     for (auto& point : _rowLines) //水平制表
     {
@@ -22,10 +23,10 @@ void Square::print()//绘制单元格
         Sleep(4);
     }
 
-    if(this->type == GO){
+    if(this->type == "GO"){
         SetCursorPosition(this->_X + 1, this->_Y + 2);
         std::cout << " GO " ;
-    }else if(this->type == JAIL){
+    }else if(this->type == "JAIL"){
         SetCursorPosition(this->_X + 1, this->_Y + 2);
         std::cout << "JAIL" ;
     }else{
@@ -37,7 +38,7 @@ void Square::print()//绘制单元格
         std::cout << "$ " << setprecision(4) << this->getPrice();
     }
 
-
+    this->save();
 }
 
 
@@ -100,4 +101,18 @@ void Square::buy(Player& p){
     if(this->ownerType == "PLAYER") SetColor(14);
     else SetColor(13);
     this->print();
+}
+
+
+void Square::save(){
+
+    this->_d.insert("_square_X", this->_X);
+    this->_d.insert("_square_Y", this->_Y);
+    this->_d.insert("_square_price", this->_price);
+    this->_d.insert("_square_level", this->_level);
+    this->_d.insert("_square_type", this->type);
+    this->_d.insert("_square_owner", this->owner);
+    this->_d.insert("_square_ownerType", this->ownerType);
+
+    db.pushData(this->_d, this->_id);
 }

@@ -10,6 +10,9 @@ void Map::PrintInitmap()
         square.print();
         Sleep(10);
     }
+
+    this->_map[this->_playerPos].draw_player();
+    this->_map[this->_aiPos].draw_ai();
 }
 
 
@@ -33,6 +36,8 @@ void Map::player_move(int i){
     this->_playerPos += i;
     if(this->_playerPos >= 40) this->_playerPos -= 40;
     
+
+    this->save();
 }
 
 
@@ -54,5 +59,19 @@ void Map::ai_move(int i){
 
     this->_aiPos += i;
     if(this->_aiPos >= 40) this->_aiPos -= 40;
+
+    this->save();
 }
 
+
+
+void Map::save(){
+
+    this->_d.insert("_map_playerPos", this->_playerPos);
+    this->_d.insert("_map_aiPos", this->_aiPos);
+    this->_d.insert("_map_p1", this->_p1);
+    this->_d.insert("_map_p2", this->_p2);
+    this->_d.insert("_map_id", this->_id);
+
+    db.pushData(this->_d, this->_id);
+}

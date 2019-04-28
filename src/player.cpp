@@ -9,7 +9,7 @@ void Player::save(){
     this->_d.insert("_player_map", this->_map);
 
 
-    db.pushData(this->_d, this->_uName);
+    db.pushData(this->_d, this->getName());
 }
 
 double Player::cost(double fine){

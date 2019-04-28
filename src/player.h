@@ -17,6 +17,7 @@ public:
         this->_passwd = m.sha256(passwd);
         this->_balance = balance;
         this->type = "PLAYER";
+        this->_map = " ";
     };
     Player(std::string uName, std::string passwd){
 
@@ -24,6 +25,7 @@ public:
         this->_passwd = m.sha256(passwd);
         this->_balance = 5000;
         this->type = "PLAYER";
+        this->_map = " ";
     };
     Player(ovo::data d){
 
@@ -39,12 +41,19 @@ public:
         this->_passwd = m.sha256(ai_id);
         this->_balance = 5000;
         this->type = "AI";
+        this->_map = " ";
     }
 
 
     void save();
     double cost(double fine);
     double gain(double money);
+    void setMap(std::string t_map){
+        this->_map = t_map;
+    };
+    std::string getMap(){
+        return this->_map;
+    };
     inline std::string getName(){
         return m.base64_decode(this->_uName);
     }
@@ -52,6 +61,12 @@ public:
     inline double getBalance(){
         return this->_balance;
     };
+
+    inline void reset(){
+        this->_balance = 5000;
+        this->_map = "";
+        this->save();
+    }
 
     //void AI();
 
@@ -65,6 +80,7 @@ private:
     ovo::data _d;
     ovo::math m;
     ovo::db db;
+
 };
 
 

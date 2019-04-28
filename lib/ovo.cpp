@@ -2002,7 +2002,10 @@ ovo::data ovo::db::getData(const string& key){
     string t_second;
 
     ifstream ins(fName.c_str());
-    if(!ins) return data;
+    if(!ins){
+        data.insert("_isExist", "NO");
+        return data;
+    }
     while(!ins.eof()){
         ins >> t_first >> t_second;
         if(_AES){
@@ -2013,6 +2016,8 @@ ovo::data ovo::db::getData(const string& key){
     }
     return data;
 }
+
+
 
 /**
  * delete data from database 

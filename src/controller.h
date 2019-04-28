@@ -7,6 +7,7 @@
 #include "player.h"
 #include "map.h"
 #include "scoreboard.h"
+#include "../lib/ovo.h"
 
 class Controller
 {
@@ -37,5 +38,8 @@ private:
     Player *p1, *p2;
     Map *map;
     Scoreboard *sb1, *sb2;
+    ovo::db db;
+    ovo::math m;
+    ovo::data d_player;
 };
 #endif // CONTROLLER_H

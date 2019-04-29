@@ -490,7 +490,7 @@ int Controller::ai_play(Player *pp2, Player *pp1){
             this->clearHint();
             if(kbhit() && getch() == 27) return 2; 
             tmp = rand() % 6;
-            if(this->map->_map[this->map->getPos(*pp2)].getPrice() < pp2->getBalance()){
+            if(this->map->_map[this->map->getPos(*pp2)].getPrice() < pp2->getBalance() && ((this->map->_map[this->map->getPos(*pp2)].getPrice() > 88) || rand()%50 < 30) && pp2->getBalance() > 1000){
                 this->map->_map[map->getPos(*pp2)].owner = pp2->getName();
                 this->map->_map[map->getPos(*pp2)].ownerType = pp2->type;
                 pp2->cost(this->map->_map[this->map->getPos(*pp2)].getPrice());
@@ -517,7 +517,7 @@ int Controller::ai_play(Player *pp2, Player *pp1){
             this->clearHint();
             if(kbhit() && getch() == 27) return 2; 
             tmp = rand()%6;
-            if(this->map->_map[map->getPos(*pp2)]._price * .5 < pp2->getBalance()){
+            if(this->map->_map[map->getPos(*pp2)]._price * .5 < pp2->getBalance() && pp2->getBalance() > 800){
                 this->map->_map[map->getPos(*pp2)].levelup();
                 this->map->_map[map->getPos(*pp2)].print();
                 pp2->cost(this->map->_map[map->getPos(*pp2)]._price * .5);
@@ -801,7 +801,6 @@ int Controller::login_pc(){
             delete map;
             this->p2 = new Player(s.append(m.md5(to_string(rand()))).substr(0, 7));
             map = new Map(*p1, *p2);
-
             p1->setMap(map->getId());
             p2->setMap(map->getId());
         }else if(map->_p2.substr(0,2) != "AI"){
@@ -822,7 +821,7 @@ int Controller::login_pc(){
                 delete map;
                 this->p2 = new Player(s.append(m.md5(to_string(rand()))).substr(0, 7));
                 map = new Map(*p1, *p2);
-
+                p1->reset();
                 p1->setMap(map->getId());
                 p2->setMap(map->getId());   
             }
@@ -881,6 +880,8 @@ int Controller::login_pp(){
         if(tmp != 1){
             delete map;
             map = new Map(*p1, *p2);
+            p1->reset();
+            p2->reset();
         }
 
         p1->setMap(map->getId());
@@ -938,7 +939,7 @@ int Controller::login_cc(){
                 delete map;
                 this->p2 = new Player(s.append(m.md5(to_string(rand()))).substr(0, 7));
                 map = new Map(*p1, *p2);
-
+                this->p1->reset();
                 p1->setMap(map->getId());
                 p2->setMap(map->getId());   
             }

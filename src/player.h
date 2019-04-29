@@ -18,6 +18,8 @@ public:
         this->_balance = balance;
         this->type = "PLAYER";
         this->_map = " ";
+
+        this->save();
     };
     Player(std::string uName, std::string passwd){
 
@@ -26,6 +28,8 @@ public:
         this->_balance = 5000;
         this->type = "PLAYER";
         this->_map = " ";
+
+        this->save();
     };
     Player(ovo::data d){
 
@@ -34,6 +38,8 @@ public:
         this->_balance = atof(d["_player_balance"].c_str());
         this->_map = d["_player_map"];
         this->type = d["_player_type"];
+
+        this->save();
     };
     Player(std::string ai_id){
 
@@ -42,6 +48,8 @@ public:
         this->_balance = 5000;
         this->type = "AI";
         this->_map = " ";
+
+        this->save();
     }
 
     inline bool checkPasswd(std::string s){
@@ -66,7 +74,7 @@ public:
 
     inline void reset(){
         this->_balance = 5000;
-        this->_map = "";
+        this->_map = " ";
         this->save();
     }
 

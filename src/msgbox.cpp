@@ -104,6 +104,8 @@ int Msgbox::print(std::string msg1, std::string msg2, std::string msg3, std::str
         case 13://Enter
             flag = true;
             break;
+        case 27:
+            return 2;
 
         default:
             break;
@@ -123,7 +125,7 @@ int Msgbox::print(std::string msg1, std::string msg2, std::string msg3, std::str
     case 2:
         return 2;//退出游戏
     default:
-        return 1;
+        return 0;
     }
 }
 

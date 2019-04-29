@@ -35,7 +35,7 @@ void Square::print()//绘制单元格
         std::cout << "Lv. " << this->_level ;
 
         SetCursorPosition(this->_X + 1, this->_Y + 2);
-        std::cout << "$ " << setprecision(4) << this->getPrice();
+        std::cout << "$ " << setprecision(3) << this->getPrice();
     }
 
     this->save();

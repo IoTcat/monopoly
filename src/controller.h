@@ -28,12 +28,15 @@ public:
     void RewriteScore();
     int Menu();
     void Game();
-    void login_pc();
-    void login_pp();
-    void login_cc();
+    int login_pc();
+    int login_pp();
+    int login_cc();
     int player_play(Player *pp1, Player *pp2);
-    void ai_play(Player *pp2, Player *pp1);
-    void getUsr(Player *&p);
+    int ai_play(Player *pp2, Player *pp1);
+    int getUsr(Player *&p);
+    int input(std::string& uName, int x, int y, std::string star = "");
+    void printHint();
+    void clearHint();
     
 private:
     int speed;

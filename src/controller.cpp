@@ -184,7 +184,7 @@ int Controller::PlayGame_pc()//游戏二级循环
     {
         if(this->player_play(p1, p2)) return 2;
 
-        this->ai_play(p2, p1);
+        if(this->ai_play(p2, p1)) return 2;
     }
 
 
@@ -290,9 +290,8 @@ int Controller::PlayGame_cc()//游戏二级循环
     /*游戏循环*/
     while (p1->getBalance() > 0 && p2->getBalance() > 0) //判断是否撞墙或撞到自身，即是否还有生命
     {
-
-        this->ai_play(p1, p2);
-        this->ai_play(p2, p1);
+        if(this->ai_play(p1, p2)) return 2;
+        if(this->ai_play(p2, p1)) return 2;
     }
 
 
@@ -343,12 +342,16 @@ int Controller::player_play(Player *pp1, Player *pp2){
     else hintBox.color(14);
     hintBox.print("MONOPOLY::" + name);
     if(!ice){
+        this->printHint();
         tmp = this->msgBox.print("Hi " + name + "~", "It is YOUR turn.", "Please Select:", "Cast", "Quit");
         if(tmp == 2) return 2;
+        this->clearHint();
 
         tmp = this->roll.cast();
+        this->printHint();
         Sleep(800);
-
+        this->clearHint();
+        if(kbhit() && getch() == 27) return 2; 
         this->map->move(tmp, *pp1);
 
         //this->hintBox.print(to_string(this->map->_map[this->map->_playerPos].getPrice()));
@@ -357,16 +360,22 @@ int Controller::player_play(Player *pp1, Player *pp2){
         if(this->map->_map[map->getPos(*pp1)].type == "GO"){
 
             pp1->gain(200);
-            this->msgBox.print("Hi " + name + "~", "You are into the GO zone..", "Gain $ 200 !!");
+            tmp = this->msgBox.print("Hi " + name + "~", "You are into the GO zone..", "Gain $ 200 !!");
+            if(tmp == 2) return 2;
 
             this->UpdateScore();
+            this->printHint();
             Sleep(1500);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
         }else if(this->map->_map[map->getPos(*pp1)].type == "JAIL"){ //JAIL
             ice = 1;
             this->msgBox.print("Hi " + name + "~", "You are into the JAIL zone..", "You need to wait for one round !!");
+            this->printHint();
             Sleep(1500);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
         }else if(this->map->_map[map->getPos(*pp1)].ownerType == " "){ //无人领地
-
             tmp = this->msgBox.print("Hi " + name + "~", "This square is unoccupied.", "Do you want to BUY it?", "Yes", "No");
             if(tmp == 1 && this->map->_map[map->getPos(*pp1)].getPrice() < pp1->getBalance()){
                 this->map->_map[map->getPos(*pp1)].owner = pp1->getName();
@@ -376,12 +385,15 @@ int Controller::player_play(Player *pp1, Player *pp2){
 
                 this->UpdateScore();
             }else if(tmp == 1){
-                this->msgBox.print("Hi " + name + "~", "This square is unoccupied.", "You don't have ENOUGH MONEY to buy it!!");
+                tmp = this->msgBox.print("Hi " + name + "~", "This square is unoccupied.", "You don't have ENOUGH MONEY to buy it!!");
+                if(tmp == 2) return 2;
+                this->printHint();
                 Sleep(1500);
+                this->clearHint();
+                if(kbhit() && getch() == 27) return 2; 
             }
 
         }else if(this->map->_map[map->getPos(*pp1)].ownerType == pp1->type){//玩家地盘
-
             tmp = this->msgBox.print("Hi " + name + "~", "This square is occupied by you.", "Do you want to UPGRADE it?", "Yes", "No");
             if(tmp == 1 && this->map->_map[map->getPos(*pp1)]._price * .5 < pp1->getBalance()){
                 this->map->_map[map->getPos(*pp1)].levelup();
@@ -392,7 +404,10 @@ int Controller::player_play(Player *pp1, Player *pp2){
             }else if(tmp == 1){
 
                 this->msgBox.print("Hi " + name + "~", "This square is occupied by you.", "You don't have ENOUGH MONEY to upgrade it!!");
+                this->printHint();
                 Sleep(1500);
+                this->clearHint();
+                if(kbhit() && getch() == 27) return 2; 
             }
         }else if(this->map->_map[map->getPos(*pp1)].ownerType == pp2->type){//ai地盘
 
@@ -400,14 +415,20 @@ int Controller::player_play(Player *pp1, Player *pp2){
             std::string t_s = "You need to PAY $ ";
             t_s += to_string(t_price);
             tmp = this->msgBox.print("Hi " + name + "~", "This square is occupied by COMPUTER.", t_s);
+            this->printHint();
             Sleep(1500);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
 
             pp1->cost(t_price);
             pp2->gain(t_price);
 
             this->UpdateScore();
         }else{
+            this->printHint();
             Sleep(800);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
         }
 
     }else{
@@ -419,7 +440,7 @@ int Controller::player_play(Player *pp1, Player *pp2){
 }
 
 
-void Controller::ai_play(Player *pp2, Player *pp1){
+int Controller::ai_play(Player *pp2, Player *pp1){
 
     static int ice = 0;
     int tmp;
@@ -430,29 +451,44 @@ void Controller::ai_play(Player *pp2, Player *pp1){
     if(!ice){
 
         this->msgBox.print("Hi ~", "It is " + name + "'s turn.", "Please Wait..");
+        this->printHint();
         Sleep(800);
-
+        this->clearHint();
+        if(kbhit() && getch() == 27) return 2; 
         tmp = this->roll.cast();
+        this->printHint();
         Sleep(800);
-
+        this->clearHint();
+        if(kbhit() && getch() == 27) return 2; 
         map->move(tmp, *pp2);
+        this->printHint();
         Sleep(300);
-
+        this->clearHint();
+        if(kbhit() && getch() == 27) return 2; 
         //GO
         if(this->map->_map[map->getPos(*pp2)].type == "GO"){
 
             pp2->gain(200);
             this->msgBox.print("WOW ~", name + " into the GO zone..", "Gain $ 200 !!");
             this->UpdateScore();
-            Sleep(1000);
+            this->printHint();
+            Sleep(1500);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
         }else if(this->map->_map[map->getPos(*pp2)].type == "JAIL"){ //JAIL
             ice = 1;
             this->msgBox.print("AHA ...", name + " are into the JAIL zone..", "He need to wait for one round !!");
-            Sleep(1000);
+            this->printHint();
+            Sleep(1500);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
         }else if(this->map->_map[map->getPos(*pp2)].ownerType == " "){ //无人领地
 
             tmp = this->msgBox.print("Lala..", name + " Find a unoccupied space.", "What will he do?");
+            this->printHint();
             Sleep(1500);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
             tmp = rand() % 6;
             if(this->map->_map[this->map->getPos(*pp2)].getPrice() < pp2->getBalance()){
                 this->map->_map[map->getPos(*pp2)].owner = pp2->getName();
@@ -462,15 +498,24 @@ void Controller::ai_play(Player *pp2, Player *pp1){
                 this->UpdateScore();
                 
                 tmp = this->msgBox.print("Lala..", name + " Find a unoccupied space.", "The " + name + " BOUGHT it!!");
+                this->printHint();
                 Sleep(1500);
+                this->clearHint();
+                if(kbhit() && getch() == 27) return 2; 
             }else{
                 tmp = this->msgBox.print("Lala..", name + " Find a unoccupied space.", "The " + name + " do NOTHING!!");
+                this->printHint();
                 Sleep(1500);
+                this->clearHint();
+                if(kbhit() && getch() == 27) return 2; 
             }
         }else if(this->map->_map[map->getPos(*pp2)].ownerType == pp2->type){//玩家地盘
 
             tmp = this->msgBox.print("Ahm..", name + " meet his own square.", "What will he do?");
+            this->printHint();
             Sleep(1500);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
             tmp = rand()%6;
             if(this->map->_map[map->getPos(*pp2)]._price * .5 < pp2->getBalance()){
                 this->map->_map[map->getPos(*pp2)].levelup();
@@ -478,10 +523,16 @@ void Controller::ai_play(Player *pp2, Player *pp1){
                 pp2->cost(this->map->_map[map->getPos(*pp2)]._price * .5);
                 this->UpdateScore();
                 tmp = this->msgBox.print("Ahm..", name + " meet his own square.", "The " + name + " UPGRADE it!!");
+                this->printHint();
                 Sleep(1500);
+                this->clearHint();
+                if(kbhit() && getch() == 27) return 2; 
             }else{
                 tmp = this->msgBox.print("Ahm..", name + " meet his own square.", "The " + name + " do NOTHING!!");
+                this->printHint();
                 Sleep(1500);
+                this->clearHint();
+                if(kbhit() && getch() == 27) return 2; 
             }
         }else if(this->map->_map[map->getPos(*pp2)].ownerType == pp1->type){//ai地盘
 
@@ -489,19 +540,27 @@ void Controller::ai_play(Player *pp2, Player *pp1){
             std::string t_s = pp1->getName() + " GAIN $ ";
             t_s += to_string(t_price);
             tmp = this->msgBox.print("Xixi ^_^", name + " meet " + pp1->getName() + "'s square..", t_s);
+            this->printHint();
             Sleep(1500);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
 
             pp2->cost(t_price);
             pp1->gain(t_price);
             this->UpdateScore();
         }else{
+            this->printHint();
             Sleep(800);
+            this->clearHint();
+            if(kbhit() && getch() == 27) return 2; 
         }
 
 
     }else{
         ice = 0;
     }
+
+    return 0;
 
 
 }
@@ -653,21 +712,22 @@ void Controller::Game()//游戏一级循环
 
     while(1){
 
+    int top = 0;
 
     int chs = Select();
         switch (chs){
 
         case 1:
-            login_pp();
+            if(login_pp()) top = 1;
 
             break;
         case 2:
-            login_pc();
+            if(login_pc()) top = 1;
 
             break;
 
         case 3:
-            login_cc();
+            if(login_cc()) top = 1;
 
             break;
 
@@ -680,7 +740,7 @@ void Controller::Game()//游戏一级循环
         srand(time(NULL));
 
 
-        while (true)//游戏可视为一个死循环，直到退出游戏时循环结束
+        while (!top)//游戏可视为一个死循环，直到退出游戏时循环结束
         {
 
             DrawGame();//绘制游戏界面
@@ -699,6 +759,8 @@ void Controller::Game()//游戏一级循环
             }
             else if (tmp == 2) //返回值为2时退出游戏
             {
+
+                SetColor(3);
                 system("cls");
                 break;
             }
@@ -711,16 +773,16 @@ void Controller::Game()//游戏一级循环
 }
 
 
-void Controller::login_pc(){
+int Controller::login_pc(){
 
 
     system("cls");
 
     srand((unsigned)time(NULL)+55);//设置随机数种子，如果没有 食物的出现位置将会固定
     std::string s = "AI";
-    this->getUsr(this->p1);
+    if(this->getUsr(this->p1)) return 2;
 
-    if(this->d_player["_isExist"] == "NO"){
+    if(this->d_player["_isExist"] == "NO" || p1->getMap() == " "){
 
         this->p2 = new Player(s.append(m.md5(to_string(rand()))).substr(0, 7));
         map = new Map(*p1, *p2);
@@ -729,6 +791,7 @@ void Controller::login_pc(){
         p2->setMap(map->getId());
 
     }else{
+
         map = new Map(p1->getMap());
 
         this->d_player.clear();
@@ -773,25 +836,26 @@ void Controller::login_pc(){
     this->sb1 = new Scoreboard(32, 20, 14);
     this->sb2 = new Scoreboard(42, 20, 13);
 
+    return 0;
 }
 
-void Controller::login_pp(){
+int Controller::login_pp(){
 
 
     system("cls");
     std::string old1, old2;
     /* 创建两个玩家 */
-    this->getUsr(this->p1);
+    if(this->getUsr(this->p1)) return 2;
 
     srand((unsigned)time(NULL)+55);
 
     old1 = this->d_player["_isExist"];
 
-    this->getUsr(this->p2);
+    if(this->getUsr(this->p2)) return 2;
 
     old2 = this->d_player["_isExist"];
 
-    if(old1 == "NO" || old2 == "NO" || p1->getMap() != p2->getMap()){
+    if(old1 == "NO" || old2 == "NO" || p1->getMap() != p2->getMap() || p1->getMap() == " " || p2->getMap() == " "){
 
         map = new Map(*p1, *p2);
 
@@ -828,9 +892,10 @@ void Controller::login_pp(){
     this->sb1 = new Scoreboard(32, 20, 14);
     this->sb2 = new Scoreboard(42, 20, 13);
 
+    return 0;
 }
 
-void Controller::login_cc(){
+int Controller::login_cc(){
 
 
     system("cls");
@@ -887,53 +952,132 @@ void Controller::login_cc(){
     this->sb1 = new Scoreboard(32, 20, 14);
     this->sb2 = new Scoreboard(42, 20, 13);
 
+    return 0;
+
 }
 
 
 
-void Controller::getUsr(Player *&p){
+int Controller::getUsr(Player *&p){
 
+    switchBox.title("Login ^_^");
+    switchBox.print("","","");
+    SetCursorPosition(26, 19);
+    std::cout << "Press ESC to quit!!";
+    SetCursorPosition(23, 12);
     std::string uName, uPasswd;
     std::cout << "Your Name = ";
-    std::cin >> uName;
+
+    if(input(uName, 23 + 6, 12)) return 2;
 
     this->d_player = db.getData(uName);
 
     if(this->d_player["_isExist"] == "NO"){
-        std::cout << "Hi~ New Visitor! " << std::endl;
+        SetCursorPosition(26, 9);
+        std::cout << "Hi~ New Visitor! " ;
 
         while(true){
-            std::cout << "Please Set your Password = ";
+            SetCursorPosition(23, 15);
+            std::cout << "Set your Password =            ";
             std::string s1, s2;
-            std::cin >> s1;
-            std::cout << std::endl << "Please Input Again!" << "Your Password = ";
-            std::cin >> s2;
+
+            if(input(s1, 23 + 10, 15, "*")) return 2;
+
+            SetCursorPosition(23, 15);
+            std::cout << " REType Password  =            ";
+
+            if(input(s2, 23 + 10, 15, "*")) return 2;
 
             if(s1 == s2){
                 uPasswd = s1;
                 break;
             }
+            SetCursorPosition(23, 9);
+            std::cout << "Two Passwords are NOT SAME!!" ;
+            s1 = "";
+            s2 = "";
 
-            std::cout << "Two Passwords are NOT SAME!!" << std::endl;
         }
 
         p = new Player(uName, uPasswd);
-        return;
+        return 0;
     }
 
     p = new Player(this->d_player);
 
     while(true){
-        std::cout << "Please Input your Password = ";
-        std::cin >> uPasswd;
+        SetCursorPosition(23, 15);
+        std::cout << "Input Password =           ";
 
+        if(input(uPasswd, 23 + 9, 15, "*")) return 2;
 
         if(p->checkPasswd(uPasswd)){
             break;
         }
-
-        std::cout << "Your Password is WRONG!!" << std::endl;
+        SetCursorPosition(25, 9);
+        std::cout << "Password is WRONG!!" ;
+        uPasswd = "";
     }
 
-    return;
+    return 0;
+}
+
+
+
+int Controller::input(std::string& uName, int x, int y, std::string star){
+
+    char tmp;
+    fflush(stdin);
+    while((tmp = _getch()) && tmp != 13){
+        std::stringstream ss;
+        ss << tmp;
+
+        if(tmp >= 33 && tmp <= 126 && uName.length() < 8) uName.append(ss.str());
+        if(tmp == 8) uName = uName.substr(0, uName.length() - 1);
+        SetCursorPosition(x,y);
+        if(star == "") std::cout << uName << "        ";
+        else{
+            for(int i = 0; i < uName.length(); i ++){
+                std::cout << star;
+            }
+            std::cout << "        ";
+        };
+        SetCursorPosition(x + uName.length() / 2, y);
+        if(tmp == 27) {
+            system("cls");
+            return 2;
+        }
+        fflush(stdin);
+    }
+    SetCursorPosition(0, 31);
+
+    return 0;
+}
+
+
+
+void Controller::printHint(){
+
+    SetColor(10);
+    SetCursorPosition(33, 15);
+    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" ;
+    Sleep(10);
+    SetCursorPosition(38, 17);
+    std::cout << "Press ESC to Quit!!" ;
+    Sleep(10);
+    SetCursorPosition(33, 19);
+    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" ;
+}
+
+void Controller::clearHint(){
+
+    SetColor(10);
+    SetCursorPosition(33, 15);
+    std::cout << "                                       " ;
+    Sleep(10);
+    SetCursorPosition(38, 17);
+    std::cout << "                    " ;
+    Sleep(10);
+    SetCursorPosition(33, 19);
+    std::cout << "                                       " ;
 }

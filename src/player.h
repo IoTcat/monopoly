@@ -44,7 +44,9 @@ public:
         this->_map = " ";
     }
 
-
+    inline bool checkPasswd(std::string s){
+        return (m.sha256(s) == this->_passwd) ? true : false;
+    };
     void save();
     double cost(double fine);
     double gain(double money);

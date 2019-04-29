@@ -12,27 +12,34 @@
 class Controller
 {
 public:
-    Controller() : speed(200), key(1), score(0), msgBox(9, 8, 11), hintBox(9, 22, 11), roll(40, 9) {
+    Controller() : speed(200), key(1), score(0), msgBox(9, 8, 11), switchBox(19, 8, 11), hintBox(9, 22, 11), roll(40, 9) {
         msgBox.title("Message Box");
     }
     ~Controller(){
         delete p1, p2, map;
     };
     void Start();
-    void Select();
+    int Select();
     void DrawGame();
-    int PlayGame();
+    int PlayGame_pc();
+    int PlayGame_pp();
+    int PlayGame_cc();
     void UpdateScore();
     void RewriteScore();
     int Menu();
     void Game();
-    void login();
+    void login_pc();
+    void login_pp();
+    void login_cc();
+    int player_play(Player *pp1, Player *pp2);
+    void ai_play(Player *pp2, Player *pp1);
+    void getUsr(Player *&p);
     
 private:
     int speed;
     int key;
     int score;
-    Msgbox msgBox;
+    Msgbox msgBox, switchBox;
     Hintbox hintBox;
     Roll roll;
     Player *p1, *p2;
@@ -41,5 +48,6 @@ private:
     ovo::db db;
     ovo::math m;
     ovo::data d_player;
+
 };
 #endif // CONTROLLER_H

@@ -7,6 +7,7 @@ void Player::save(){
     this->_d.insert("_player_passwd", this->_passwd);
     this->_d.insert("_player_balance", this->_balance);
     this->_d.insert("_player_map", this->_map);
+    this->_d.insert("_player_type", this->type);
 
 
     db.pushData(this->_d, this->getName());

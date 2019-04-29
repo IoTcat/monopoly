@@ -63,7 +63,13 @@ void Map::ai_move(int i){
     this->save();
 }
 
+void Map::move(int i, Player& p){
 
+    if(p.type == "PLAYER")
+        this->player_move(i);
+    else if(p.type == "AI")
+        this->ai_move(i);
+}
 
 void Map::save(){
 

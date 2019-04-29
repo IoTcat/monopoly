@@ -84,9 +84,12 @@ public:
     };
 
     void PrintInitmap();//绘制初始地图
-    void player_move(int i);
-    void ai_move(int i);
     void save();
+    void move(int i, Player& p);
+    int getPos(Player& p){
+        if(p.type == "PLAYER") return this->_playerPos;
+        else return this->_aiPos;
+    };
     inline std::string getId(){
         return this->_id;
     }
@@ -101,6 +104,9 @@ private:
     ovo::db db;
     ovo::data _d;
     ovo::math m;
+
+    void player_move(int i);
+    void ai_move(int i);
 
 };
 #endif // MAP_H

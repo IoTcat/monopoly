@@ -1,5 +1,18 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package controller
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+
+
+
+#ifndef __CONTROLLER_H_
+#define __CONTROLLER_H_
 
 #include "msgbox.h"
 #include "hintbox.h"
@@ -9,48 +22,80 @@
 #include "scoreboard.h"
 #include "../lib/ovo.h"
 
+
+
+/**
+ * Game Controller
+ *
+ * @author yimian
+ * @category Monopoly Game
+ * @package controller
+ */
 class Controller
 {
 public:
-    Controller() : speed(200), key(1), score(0), msgBox(9, 8, 11), switchBox(19, 8, 11), hintBox(9, 22, 11), roll(40, 9) {
+    Controller() : key(1), msgBox(9, 8, 11), switchBox(19, 8, 11), hintBox(9, 22, 11), roll(40, 9) {
+        /* set default msgBox title */
         msgBox.title("Message Box");
     }
     ~Controller(){
-        delete p1, p2, map;
+        /* distory all pointers */
+        delete p1, p2, map, sb1, sb2;
     };
-    void Start();
-    int Select();
-    void DrawGame();
-    int PlayGame_pc();
-    int PlayGame_pp();
-    int PlayGame_cc();
-    void UpdateScore();
-    void RewriteScore();
-    int Menu();
+
+    /* create a game */
     void Game();
-    int login_pc();
-    int login_pp();
-    int login_cc();
-    int player_play(Player *pp1, Player *pp2);
-    int ai_play(Player *pp2, Player *pp1);
-    int getUsr(Player *&p);
-    int input(std::string& uName, int x, int y, std::string star = "");
-    void printHint();
-    void clearHint();
     
 private:
-    int speed;
-    int key;
-    int score;
+    short key;
     Msgbox msgBox, switchBox;
     Hintbox hintBox;
+    /* dice */
     Roll roll;
     Player *p1, *p2;
     Map *map;
     Scoreboard *sb1, *sb2;
+    /* include methods from ovo.h */
     ovo::db db;
-    ovo::math m;
+    const ovo::math m;
     ovo::data d_player;
 
+private:
+
+    /* Game start page */
+    void Start() const;
+    /* game menu area */
+    short Select();
+    /* draw game page */
+    void DrawGame() const;
+    /* play game for player-computer mode */
+    short PlayGame_pc();
+    /* play game for player-player mode */
+    short PlayGame_pp();
+    /* play game for computer-computer mode */
+    short PlayGame_cc();
+    /* privide players options in game */
+    short player_play(Player *pp1, Player *pp2, short& ice);
+    /* AI in game */
+    short ai_play(Player *pp2, Player *pp1, short& ice);
+    /* update the info Board of players */
+    void UpdateScore() const;
+    /* login page/logic for player_computer mode */
+    short login_pc();
+    /* login page/logic for player_player mode */
+    short login_pp();
+    /* login page/logic for computer_computer mode */
+    short login_cc();
+    /* get a user */
+    short getUsr(Player *&p);
+    /* get input from keyboard */
+    short input(std::string& uName, const int& x, const int& y, const std::string star = "");
+    /* print hint */
+    void printHint() const;
+    /* clear hint */
+    void clearHint() const;
+
 };
-#endif // CONTROLLER_H
+
+
+#endif // __CONTROLLER_H_

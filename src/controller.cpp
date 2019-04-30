@@ -133,7 +133,7 @@ void Controller::Start() const{
  * @param void
  * @return void
  */
-short Controller::Select(){
+const short Controller::Select(){
 
     /* print selections */
     SetColor(3);
@@ -268,7 +268,7 @@ short Controller::Select(){
  * @param void
  * @return void
  */
-void Controller::DrawGame() const{
+const void Controller::DrawGame() const{
 
     system("cls");
 
@@ -289,7 +289,7 @@ void Controller::DrawGame() const{
  * @param void
  * @return short
  */
-short Controller::PlayGame_pc(){
+const short Controller::PlayGame_pc(){
 
     short tmp;
     short ice_p1 = 0;
@@ -348,7 +348,7 @@ short Controller::PlayGame_pc(){
  * @param void
  * @return short
  */
-short Controller::PlayGame_pp(){
+const short Controller::PlayGame_pp(){
 
     short tmp;
     short ice_p1 = 0;
@@ -407,7 +407,7 @@ short Controller::PlayGame_pp(){
  * @param void
  * @return short
  */
-short Controller::PlayGame_cc(){
+const short Controller::PlayGame_cc(){
 
     short tmp;
     short ice_p1 = 0;
@@ -469,7 +469,7 @@ short Controller::PlayGame_cc(){
  * @param short& ice #is ice
  * @return short
  */
-short Controller::player_play(Player *pp1, Player *pp2, short& ice){
+const short Controller::player_play(Player *pp1, Player *pp2, short& ice){
 
     short tmp;
 
@@ -624,7 +624,7 @@ short Controller::player_play(Player *pp1, Player *pp2, short& ice){
  * @param short& ice #is ice
  * @return short
  */
-short Controller::ai_play(Player *pp2, Player *pp1, short& ice){
+const short Controller::ai_play(Player *pp2, Player *pp1, short& ice){
 
     short tmp;
 
@@ -813,7 +813,7 @@ void Controller::UpdateScore() const{
  * @param void
  * @return short
  */
-short Controller::login_pc(){
+const short Controller::login_pc(){
 
     system("cls");
 
@@ -925,7 +925,7 @@ short Controller::login_pc(){
  * @param void
  * @return short
  */
-short Controller::login_pp(){
+const short Controller::login_pp(){
 
     system("cls");
 
@@ -1011,7 +1011,7 @@ short Controller::login_pp(){
  * @param void
  * @return short
  */
-short Controller::login_cc(){
+const short Controller::login_cc(){
 
     system("cls");
 
@@ -1114,7 +1114,7 @@ short Controller::login_cc(){
  * @param Player *&p
  * @return short
  */
-short Controller::getUsr(Player *&p){
+const short Controller::getUsr(Player *&p){
 
     switchBox.title("Login ^_^");
     switchBox.print("","","");
@@ -1203,7 +1203,7 @@ short Controller::getUsr(Player *&p){
  * @param string star #filler for password
  * @return short
  */
-short Controller::input(std::string& uName, const int& x, const int& y, const std::string star){
+const short Controller::input(std::string& uName, const int& x, const int& y, const std::string star){
 
     char tmp;
     fflush(stdin);

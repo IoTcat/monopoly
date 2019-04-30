@@ -1,5 +1,15 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package point
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
 #include "point.h"
-#include "tools.h"
+
 #include <iostream>
 
 void Point::Print()//输出点

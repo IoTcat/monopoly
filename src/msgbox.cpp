@@ -1,9 +1,29 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package msgbox
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
 #include "msgbox.h"
 
-
-int Msgbox::print(std::string msg1, std::string msg2, std::string msg3, std::string ch1, std::string ch2)//游戏结束界面
+/**
+ * print message
+ *
+ * @access publice
+ * @param string& msg1
+ * @param string& msg2
+ * @param string& msg3
+ * @param string& ch1
+ * @param string& ch2
+ * @return short
+ */
+const short Msgbox::print(const std::string& msg1, const std::string& msg2, const std::string& msg3, const std::string& ch1, const std::string& ch2) const
 {
-    /*绘制游戏结束界面*/
+
     Sleep(500);
     SetColor(this->_color);
     SetCursorPosition(this->_X + 1, this->_Y); /* 9,8 */
@@ -66,11 +86,11 @@ int Msgbox::print(std::string msg1, std::string msg2, std::string msg3, std::str
     std::cout << ch1 ;
     SetCursorPosition(0, 31);
 
-    /*选择部分*/
+    /* select part */
     int ch;
     int tmp_key = 1;
     bool flag = false;
-    while(kbhit()) getch(); //清缓存
+    while(kbhit()) getch(); //clear cache
     while (ch1.length() && (ch = getch()))
     {
         switch (ch)
@@ -121,16 +141,22 @@ int Msgbox::print(std::string msg1, std::string msg2, std::string msg3, std::str
     switch (tmp_key)
     {
     case 1:
-        return 1;//重新开始
+        return 1;//choose 1
     case 2:
-        return 2;//退出游戏
+        return 2;//choose 2
     default:
         return 0;
     }
 }
 
-
-void Msgbox::clear(){
+/**
+ * clear msgbox
+ *
+ * @access publice
+ * @param void
+ * @return void
+ */
+void Msgbox::clear() const{
 
     for(int i = this->_Y; i < this->_Y + 13; i++){
 

@@ -1,7 +1,17 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package roll
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
 #include "roll.h"
 
 
-int Roll::cast(){
+const int Roll::cast() const{
 
     int res = (rand() % 6)+ 1;
     this->anime();
@@ -10,7 +20,7 @@ int Roll::cast(){
 }
 
 
-void Roll::anime(){
+void Roll::anime() const{
     for(float i = 1; i < 300; i *= 1.2){
         this->print((rand() % 6)+ 1);
     }
@@ -20,9 +30,9 @@ void Roll::anime(){
     }
 }
 
-int Roll::print(int num)//游戏结束界面
-{
-    /*绘制游戏结束界面*/
+const int Roll::print(const int num) const{
+
+    /*骰子界面*/
     SetColor((rand() % (15-10+1))+ 10);
     SetCursorPosition(this->_X + 1, this->_Y); /* 9,8 */
     std::cout << "==========" ;
@@ -41,7 +51,7 @@ int Roll::print(int num)//游戏结束界面
 }
 
 
-void Roll::clear(){
+void Roll::clear() const{
 
     for(int i = this->_Y; i < this->_Y + 5; i++){
 

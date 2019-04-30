@@ -1,10 +1,29 @@
-#ifndef STRATINTERFACE_H
-#define STARTINTERFACE_H
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package startinterface
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+
+#ifndef __STRATINTERFACE_H_
+#define __STARTINTERFACE_H_
 
 #include <deque>
 #include <vector>
 #include "point.h"
 
+
+/**
+ * start interface
+ *
+ * @author yimian
+ * @category Monopoly Game
+ * @package startinterface
+ */
 class StartInterface
 {
 public:
@@ -12,7 +31,7 @@ public:
 
         int p;
 
-        startsnake.emplace_back(Point(0,14));//Éß
+        startsnake.emplace_back(Point(0,14));///\/\/\/
         startsnake.emplace_back(Point(1,14));
         startsnake.emplace_back(Point(2,15));
         startsnake.emplace_back(Point(3,16));
@@ -134,4 +153,4 @@ private:
     std::vector<Point> textsnake;//开始动画中的文字
     int speed;//动画的速度
 };
-#endif // STRATINTERFACE_H
+#endif // __STRATINTERFACE_H_

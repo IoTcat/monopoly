@@ -1,7 +1,26 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package map
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
 #include "map.h"
+
 #include <windows.h>
 #include "tools.h"
 
+
+/**
+ * print ini map
+ *
+ * @access public
+ * @param void
+ * @return short
+ */
 void Map::PrintInitmap()
 {
     SetColor(3);
@@ -16,6 +35,13 @@ void Map::PrintInitmap()
 }
 
 
+/**
+ * player move
+ *
+ * @access private
+ * @param int i
+ * @return void
+ */
 void Map::player_move(int i){
 
 
@@ -41,6 +67,13 @@ void Map::player_move(int i){
 }
 
 
+/**
+ * ai move
+ *
+ * @access private
+ * @param int i
+ * @return void
+ */
 void Map::ai_move(int i){
 
     for(int ii = 0; ii < i; ii++){
@@ -63,7 +96,16 @@ void Map::ai_move(int i){
     this->save();
 }
 
-void Map::move(int i, Player& p){
+
+/**
+ * move player
+ *
+ * @access public
+ * @param int& i
+ * @param Player& p
+ * @return void
+ */
+void Map::move(const int& i, const Player& p){
 
     if(p.type == "PLAYER")
         this->player_move(i);
@@ -71,6 +113,14 @@ void Map::move(int i, Player& p){
         this->ai_move(i);
 }
 
+
+/**
+ * save data
+ *
+ * @access private
+ * @param void
+ * @return void
+ */
 void Map::save(){
 
     this->_d.insert("_map_playerPos", this->_playerPos);

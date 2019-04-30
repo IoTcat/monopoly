@@ -1,13 +1,30 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package msgbox
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+
 #ifndef __MSGBOX_H_
 #define __MSGBOX_H_
 
-#include "tools.h"
 #include <iostream>
 #include <string>
 #include <windows.h>
 #include <conio.h>
+#include "tools.h"
 
-
+/**
+ * Message Box
+ *
+ * @author yimian
+ * @category Monopoly Game
+ * @package msgbox
+ */
 class Msgbox{
 
 public:
@@ -18,12 +35,12 @@ public:
     };
     ~Msgbox(){this->clear();};
 
-    inline void title(std::string title){
+    inline void title(const std::string& title){
         this->_title = title;
     };
 
-    int print(std::string msg1, std::string msg2, std::string msg3, std::string ch1 = "", std::string ch2 = "");
-    void clear();
+    const short print(const std::string& msg1, const std::string& msg2, const std::string& msg3, const std::string& ch1 = "", const std::string& ch2 = "") const;
+    void clear() const;
 
 
 private:

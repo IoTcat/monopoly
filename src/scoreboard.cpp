@@ -1,10 +1,22 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package scoreboard
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+
 #include "scoreboard.h"
+
 #include <iomanip>
 
 
-int Scoreboard::print(Player& p)//游戏结束界面
+const int Scoreboard::print(Player& p) const
 {
-    /*绘制游戏结束界面*/
+    
     Sleep(500);
     SetColor(this->_color);
     SetCursorPosition(this->_X + 1, this->_Y); /* 9,8 */

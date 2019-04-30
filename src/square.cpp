@@ -1,11 +1,23 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package square
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+
 #include "square.h"
+
 #include <windows.h>
 #include <iostream>
-#include "tools.h"
 #include <iomanip>
+#include "tools.h"
 
-void Square::print()//绘制单元格
-{
+
+void Square::print(){
 
     if(this->ownerType == "PLAYER") SetColor(14);
     else if(this->ownerType == "AI") SetColor(13);
@@ -42,7 +54,8 @@ void Square::print()//绘制单元格
 }
 
 
-void Square::_drawLines(int x, int y){
+
+void Square::_drawLines(const int x, const int y){
 
     for(int i = 1; i < g_squareLength; i++){
 
@@ -63,7 +76,7 @@ void Square::_drawLines(int x, int y){
 }
 
 
-void Square::draw_player(){
+void Square::draw_player() const{
 
     Point point(this->_X + 1, this->_Y + 3);
 
@@ -71,7 +84,7 @@ void Square::draw_player(){
     point.PrintStar();
 }
 
-void Square::draw_ai(){
+void Square::draw_ai() const{
 
     Point point(this->_X + 3, this->_Y + 3);
 
@@ -79,14 +92,14 @@ void Square::draw_ai(){
     point.PrintCircular();
 }
 
-void Square::clear_player(){
+void Square::clear_player() const{
 
     Point point(this->_X + 1, this->_Y + 3);
 
     point.Clear();
 }
 
-void Square::clear_ai(){
+void Square::clear_ai() const{
 
     Point point(this->_X + 3, this->_Y + 3);
 

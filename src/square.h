@@ -1,3 +1,14 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package square
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+
 #ifndef __SQUARE_H_
 #define __SQUARE_H_
 
@@ -11,14 +22,23 @@
 const unsigned short g_squareLength = 4;
 const unsigned short g_squareWidth = 4; 
 
-
+/**
+ * square
+ *
+ * @author yimian
+ * @category Monopoly Game
+ * @package square
+ */
 class Square
 {
 public:
-    Square(int x, int y)//默认构造函数，绘制单元格外形
+    Square(const int x, const int y)
     {
         srand(time(NULL) + x * 10 + y *1000);
+
+        /* generate id */
         this->_id = m.md5(to_string(rand() * x * y));
+
         this->_X = x;
         this->_Y = y;
         this->_drawLines(x, y);
@@ -54,26 +74,26 @@ public:
     std::string type;
     std::string owner;
     std::string ownerType;
-    void draw_player();
-    void draw_ai();
-    void clear_player();
-    void clear_ai();
-    void print();//绘制初始地图
+    void draw_player() const;
+    void draw_ai() const;
+    void clear_player() const;
+    void clear_ai() const;
+    void print();
     void buy(Player& p);
     void save();
-    inline std::string getId(){
+    inline const std::string getId() const{
         return this->_id;
     }
 
-    inline double getPrice(){
+    inline const double getPrice() const{
         return (double)this->_price * (1 + this->_level * .05);
     };
-    inline unsigned short getLevel(){
+    inline const unsigned short getLevel() const{
         return this->_level;
     };
     friend class Player;
     friend class Controller;
-    inline int levelup(){
+    inline const int levelup(){
         this->_level += 1;
         this->print();
         return this->_level;
@@ -93,7 +113,7 @@ private:
     ovo::db db;
     ovo::math m;
 
-    void _drawLines(int x, int y);
+    void _drawLines(const int x, const int y);
 
 
 };

@@ -1,3 +1,14 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package player
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+
 #ifndef __PLAYER_H_
 #define __PLAYER_H_
 
@@ -5,13 +16,20 @@
 #include <string>
 #include <cstdlib>
 #include "../lib/ovo.h"
-//#include "square.h"
 
 
+/**
+ * Player
+ *
+ * @author yimian
+ * @category Monopoly Game
+ * @package player
+ */
 class Player{
 
 public:
-    Player(std::string uName, std::string passwd, double balance){
+    /* constructor for uname and password and balance */
+    Player(const std::string& uName, const std::string& passwd, const double& balance){
 
         this->_uName = m.base64_encode(uName);
         this->_passwd = m.sha256(passwd);
@@ -21,7 +39,8 @@ public:
 
         this->save();
     };
-    Player(std::string uName, std::string passwd){
+    /* constructor for default balance */
+    Player(const std::string& uName, const std::string& passwd){
 
         this->_uName = m.base64_encode(uName);
         this->_passwd = m.sha256(passwd);
@@ -31,6 +50,7 @@ public:
 
         this->save();
     };
+    /* recover from data */
     Player(ovo::data d){
 
         this->_uName = d["_player_uName"];
@@ -41,7 +61,8 @@ public:
 
         this->save();
     };
-    Player(std::string ai_id){
+    /* create ai */
+    Player(const std::string& ai_id){
 
         this->_uName = m.base64_encode(ai_id);
         this->_passwd = m.sha256(ai_id);
@@ -52,34 +73,38 @@ public:
         this->save();
     }
 
-    inline bool checkPasswd(std::string s){
+    /* cost */
+    const double cost(const double& fine);
+    /* gain */
+    const double gain(const double& money);
+    /* check password */
+    inline const bool checkPasswd(const std::string& s){
         return (m.sha256(s) == this->_passwd) ? true : false;
     };
-    void save();
-    double cost(double fine);
-    double gain(double money);
-    void setMap(std::string t_map){
+    /* link map */
+    inline void setMap(const std::string& t_map){
         this->_map = t_map;
     };
-    std::string getMap(){
+    /* get linked map */
+    inline const std::string getMap() const{
         return this->_map;
     };
-    inline std::string getName(){
+    /* get name */
+    inline const std::string getName(){
         return m.base64_decode(this->_uName);
     }
-
-    inline double getBalance(){
+    /* get balance */
+    inline const double getBalance(){
         return this->_balance;
     };
-
+    /* reset player */
     inline void reset(){
         this->_balance = 5000;
         this->_map = " ";
         this->save();
     }
 
-    //void AI();
-
+    /* store player type */
     std::string type;
 
 private:
@@ -91,7 +116,10 @@ private:
     ovo::math m;
     ovo::db db;
 
+    /* save data */
+    void save();
+
 };
 
 
-#endif
+#endif //__PLAYER_H_

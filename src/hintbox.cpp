@@ -1,9 +1,26 @@
+
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package hintbox
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+
 #include "hintbox.h"
 
 
-int Hintbox::print(std::string msg)//游戏结束界面
-{
-    /*绘制游戏结束界面*/
+/**
+ * print hint box
+ *
+ * @access public
+ * @param string& msg
+ * @return short
+ */
+const short Hintbox::print(const std::string& msg) const{
+
     Sleep(500);
     SetColor(this->_color);
     SetCursorPosition(this->_X + 1, this->_Y); /* 9,8 */
@@ -28,7 +45,14 @@ int Hintbox::print(std::string msg)//游戏结束界面
 }
 
 
-void Hintbox::clear(){
+/**
+ * clear hint box
+ *
+ * @access public
+ * @param void
+ * @return void
+ */
+void Hintbox::clear() const{
 
     for(int i = this->_Y; i < this->_Y + 5; i++){
 

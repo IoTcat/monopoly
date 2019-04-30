@@ -1,6 +1,16 @@
-#include "startinterface.h"
-#include <windows.h>
 
+/**
+ * Monopoly Game
+ *
+ * @category Monopoly Game
+ * @package startinterface
+ * @copyright Copyright (c) 2019 yimian (https://yimian.xyz)
+ * @license GNU General Public License 3.0
+ * @version 0.0.1
+ */
+#include "startinterface.h"
+
+#include <windows.h>
 
 void StartInterface::PrintFirst()//蛇从左边出现到完全出现的过程
 {

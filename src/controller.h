@@ -65,31 +65,31 @@ private:
     /* Game start page */
     void Start() const;
     /* game menu area */
-    short Select();
+    const short Select();
     /* draw game page */
-    void DrawGame() const;
+    const void DrawGame() const;
     /* play game for player-computer mode */
-    short PlayGame_pc();
+    const short PlayGame_pc();
     /* play game for player-player mode */
-    short PlayGame_pp();
+    const short PlayGame_pp();
     /* play game for computer-computer mode */
-    short PlayGame_cc();
+    const short PlayGame_cc();
     /* privide players options in game */
-    short player_play(Player *pp1, Player *pp2, short& ice);
+    const short player_play(Player *pp1, Player *pp2, short& ice);
     /* AI in game */
-    short ai_play(Player *pp2, Player *pp1, short& ice);
+    const short ai_play(Player *pp2, Player *pp1, short& ice);
     /* update the info Board of players */
     void UpdateScore() const;
     /* login page/logic for player_computer mode */
-    short login_pc();
+    const short login_pc();
     /* login page/logic for player_player mode */
-    short login_pp();
+    const short login_pp();
     /* login page/logic for computer_computer mode */
-    short login_cc();
+    const short login_cc();
     /* get a user */
-    short getUsr(Player *&p);
+    const short getUsr(Player *&p);
     /* get input from keyboard */
-    short input(std::string& uName, const int& x, const int& y, const std::string star = "");
+    const short input(std::string& uName, const int& x, const int& y, const std::string star = "");
     /* print hint */
     void printHint() const;
     /* clear hint */

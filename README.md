@@ -38,6 +38,31 @@ A C++ Monopoly Game for EEE102 AS3.
  - 土地可无限制升级，但一轮只能升级一次。
  - 当有玩家破产时，游戏结束。未破产的玩家赢！
  
+ ## 项目层级关系
+ ````
+ main
+|---Controller---|---Startinterface---|---Point
+|                |
+|                |---Map---|---Square---|---Point
+|                |         |---Player
+|                |         |---lib/ovo
+|                |
+|                |---Player---|---lib/ovo
+|                |
+|                |---Hintbox
+|                |
+|                |---Msgbox
+|                |
+|                |---Scoreboard---|---Player
+|                |
+|                |---Roll
+|                |
+|                |---tool
+|
+|
+|
+ ````
+ 
  ## 开源协议
  - 本项目使用[**GNU General Public License 3.0**开源协议](/LICENSE)！
  

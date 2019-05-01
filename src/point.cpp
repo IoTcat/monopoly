@@ -12,51 +12,51 @@
 
 #include <iostream>
 
-void Point::Print()//输出点
+void Point::Print() const//输出点
 {
     SetCursorPosition(x, y);
     std::cout << "@" ;
 }
 
-void Point::PrintCircular()//输出圆形
+void Point::PrintCircular() const//输出圆形
 {
     SetCursorPosition(x, y);
     std::cout << "o" ;
 }
 
-void Point::PrintStar()//输出星星
+void Point::PrintStar() const//输出星星
 {
     SetCursorPosition(x, y);
     std::cout << " o" ;
 }
 
 
-void Point::PrintRowLine()//输出水平线
+void Point::PrintRowLine() const//输出水平线
 {
     SetCursorPosition(x, y);
     std::cout << "--" ;
 }
 
-void Point::PrintColumnLine()//输出水平线
+void Point::PrintColumnLine() const//输出水平线
 {
     SetCursorPosition(x, y);
     std::cout << "| " ;
 }
 
-void Point::PrintLeftLine()//输出左上下角
+void Point::PrintLeftLine() const//输出左上下角
 {
     SetCursorPosition(x, y);
     std::cout << "--" ;
 }
 
-void Point::PrintRightLine()//输出右上下角
+void Point::PrintRightLine() const//输出右上下角
 {
     SetCursorPosition(x, y);
     std::cout << "- " ;
 }
 
 
-void Point::Clear()//清除输出
+void Point::Clear() const//清除输出
 {
     SetCursorPosition(x, y);
     std::cout << "  " ;

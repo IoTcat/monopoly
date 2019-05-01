@@ -25,22 +25,22 @@ class Point
 public:
     Point(){};
     Point(const int x, const int y) : x(x), y(y) {};
-    void Print();
-    void PrintCircular();
-    void PrintStar();
-    void PrintRowLine();
-    void PrintColumnLine();
-    void PrintLeftLine();
-    void PrintRightLine();
-    void Clear();
+    void Print() const;
+    void PrintCircular() const;
+    void PrintStar() const;
+    void PrintRowLine() const;
+    void PrintColumnLine() const;
+    void PrintLeftLine() const;
+    void PrintRightLine() const;
+    void Clear() const;
     void ChangePosition(const int x, const int y);
     bool operator== (const Point& point) { return (point.x == this->x) && (point.y == this->y); }
     inline const int GetX() const{ return this->x; }
     inline const int GetY() const{ return this->y; }
-    inline void red(){SetColor(13);}
-    inline void yellow(){SetColor(14);}
-    inline void darkBlue(){SetColor(3);}
-    inline void lightBlue(){SetColor(11);}
+    inline void red() const{SetColor(13);}
+    inline void yellow() const{SetColor(14);}
+    inline void darkBlue() const{SetColor(3);}
+    inline void lightBlue() const{SetColor(11);}
 private:
     int x, y;
 };

@@ -20,7 +20,7 @@
 /**
  * start interface
  *
- * @author yimian
+ * @author github.com/silence1772, yimian
  * @category Monopoly Game
  * @package startinterface
  */
@@ -138,19 +138,19 @@ public:
         textsnake.emplace_back(Point(p+2, 17));
         textsnake.emplace_back(Point(p+2, 18));
 
-
-
-
     }
-    void PrintFirst();
-    void PrintSecond();
-    void PrintThird();
-    void PrintText();
-    void ClearText();
+
     void Action();
 private:
     std::deque<Point> startsnake;//开始动画中的蛇
     std::vector<Point> textsnake;//开始动画中的文字
     int speed;//动画的速度
+
+    void PrintFirst();
+    void PrintSecond();
+    void PrintThird();
+    void PrintText();
+    void ClearText();
+
 };
 #endif // __STRATINTERFACE_H_

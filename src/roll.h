@@ -38,13 +38,13 @@ public:
 
 
     const int cast() const;
-    void clear() const;
-    void anime() const;
 
 private:
     int _X;
     int _Y;
     const int print(const int num) const;
+    void clear() const;
+    void anime() const;
 
 };
 

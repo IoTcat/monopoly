@@ -80,7 +80,6 @@ public:
     void clear_ai() const;
     void print();
     void buy(Player& p);
-    void save();
     inline const std::string getId() const{
         return this->_id;
     }
@@ -91,7 +90,7 @@ public:
     inline const unsigned short getLevel() const{
         return this->_level;
     };
-    friend class Player;
+    //friend class Player;
     friend class Controller;
     inline const int levelup(){
         this->_level += 1;
@@ -114,6 +113,7 @@ private:
     ovo::math m;
 
     void _drawLines(const int x, const int y);
+    void save();
 
 
 };

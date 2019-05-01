@@ -28,7 +28,7 @@ goto menu
 
 
 :instr
-start https://github.com/IoTcat/monopoly#monopoly
+start https://github.com/IoTcat/monopoly
 goto menu
 
 :open
